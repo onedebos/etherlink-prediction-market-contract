@@ -24,7 +24,7 @@ contract PredictxtzContract is Ownable, ReentrancyGuard {
     struct Market {
         uint256 id;
         string question;
-        string description;
+        // string description;
         uint256 endTime; // When betting stops
     //  uint256 resolveTime;    // When market can be resolved. // For now, we resolve immediately after endTime or manually
         bool resolved;
@@ -33,7 +33,7 @@ contract PredictxtzContract is Ownable, ReentrancyGuard {
         uint256 totalNoAmount; // Total $ bet on NO
         uint256 totalYesShares; // Total YES shares (for price calculation)
         uint256 totalNoShares; // Total No shares (for price calculation)
-        // uint256 marketBalance; // how much is in the market
+        uint256 marketBalance; // how much is in the market
         address creator;
         // uint256 createdAt;
         bool active;
@@ -87,7 +87,6 @@ contract PredictxtzContract is Ownable, ReentrancyGuard {
 
     function createMarket(
         string calldata question,
-        string calldata description,
         uint256 duration
     ) external returns (uint256) {
         require(duration > 0, "Duration must be positive");
@@ -98,7 +97,6 @@ contract PredictxtzContract is Ownable, ReentrancyGuard {
         markets[marketId] = Market({
             id: marketId,
             question: question,
-            description: description,
             endTime: block.timestamp + duration,
             resolved: false,
             winner: 2, // Unresolved
@@ -106,7 +104,7 @@ contract PredictxtzContract is Ownable, ReentrancyGuard {
             totalNoAmount: 0, // No money in pool yet
             totalYesShares: VIRTUAL_LIQUIDITY, // Virtual shares for pricing
             totalNoShares: VIRTUAL_LIQUIDITY, // Virtual shares for pricing
-            // marketBalance: 0,
+            marketBalance: 0,
             creator: msg.sender,
             // createdAt: block.timestamp,
             active: true
@@ -170,7 +168,7 @@ contract PredictxtzContract is Ownable, ReentrancyGuard {
     ) external payable nonReentrant {
         Market storage market = markets[marketId];
         uint256 betAmount = msg.value; // Use the value sent with the transaction as the bet amount
-        // market.marketBalance += msg.value;
+        market.marketBalance += msg.value;
 
         // Validation
         require(market.active, "Market not active");
@@ -261,7 +259,7 @@ contract PredictxtzContract is Ownable, ReentrancyGuard {
 
         if (payout > 0) {
             (bool success, ) = payable(msg.sender).call{value: payout}("");
-            // market.marketBalance -= payout;
+            market.marketBalance -= payout;
             require(success, "XTZ transfer failed");
             emit WinningsClaimed(marketId, msg.sender, payout);
         }

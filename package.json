@@ -1,14 +1,10 @@
 {
   "name": "etherlink-prediction-market-starter",
-  "scripts": {
-    "build": "npx thirdweb@latest detect",
-    "deploy": "npx thirdweb@latest deploy",
-    "publish": "npx thirdweb@latest publish"
-  },
+  "scripts": {},
   "devDependencies": {
-    "hardhat": "^2.19.1"
+    "@nomiclabs/hardhat-ethers": "^2.2.3"
   },
-  "dependencies": {
+  "dependencies": {    
     "@thirdweb-dev/contracts": "^3.8.0",
     "dotenv": "^17.2.2"
   }
