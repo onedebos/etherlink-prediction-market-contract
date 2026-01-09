@@ -7,13 +7,13 @@ async function main() {
   console.log("Deploying contract with account:", deployer.address);
 
   // Compile & get the contract factory
-  const MyToken = await ethers.getContractFactory("PredictxtzContract");
+  const MyContract = await ethers.getContractFactory("PredictxtzContract");
 
   // Deploy the contract
-  const token = await MyToken.deploy();
-  await token.deployed();
+  const DeployedContract = await MyContract.deploy();
+  await DeployedContract.deployed();
 
-  console.log("Contract deployed to:", token.address);
+  console.log("Contract deployed to:", DeployedContract.address);
 }
 
 main()
