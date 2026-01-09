@@ -7,8 +7,8 @@ module.exports = {
   solidity: "0.8.9",
   networks: {
     etherlink: {
-      url: "https://node.ghostnet.etherlink.com",
-      chainId: 128123,
+      url: "https://node.shadownet.etherlink.com",
+      chainId: 127823,
       accounts: [process.env.PRIVATE_KEY],
     },
   },
